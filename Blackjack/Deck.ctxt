@@ -1,0 +1,11 @@
+#BlueJ class context
+comment0.target=Deck
+comment1.params=
+comment1.target=Deck()
+comment2.params=
+comment2.target=Card\ getCard()
+comment3.params=
+comment3.target=boolean\ hasCards()
+comment4.params=
+comment4.target=java.lang.String\ toString()
+numComments=5

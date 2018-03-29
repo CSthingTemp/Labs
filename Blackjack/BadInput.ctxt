@@ -1,0 +1,9 @@
+#BlueJ class context
+comment0.target=BadInput
+comment1.params=
+comment1.target=BadInput()
+comment2.params=messages
+comment2.target=BadInput(java.lang.Object[])
+comment3.params=m
+comment3.target=java.lang.String\ stringify(java.lang.Object[])
+numComments=4
