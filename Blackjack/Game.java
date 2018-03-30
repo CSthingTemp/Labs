@@ -12,14 +12,14 @@ public class Game extends JFrame{
         System.out.print("Welcome to Blackjack! What's your name? ");
         String tempName = Input.scan.nextLine();
         
-        this.thePlayer = new Player(tempName);
+        thePlayer = new Player(tempName);
         System.out.println();
         
         this.resetGame();
     }
     
     public void resetGame(){
-        this.theDeck = new Deck();
+        theDeck = new Deck();
         //System.out.println(theDeck);
         bettingMoney = 0;
         thePlayer.resetHand();
@@ -39,7 +39,12 @@ public class Game extends JFrame{
         }
     }
     public void newDealerCard(){
-        this.dealerHand.add(theDeck.getCard());
+        try{
+            Card temp = theDeck.getCard();
+            this.dealerHand.add(temp);
+        }catch(OutOfCards e){
+            System.out.println(e+" . . . How did this happen?");
+        }
     }
     
     public void bet(long m){
@@ -82,17 +87,13 @@ public class Game extends JFrame{
     }
     
     public int getDealerHandTotal(){
-        int total = 0, numAces = 0;
+        int total = 0;
         for(byte i=0; i<this.dealerHand.size(); i++)
-            if(this.dealerHand.get(i).getValue() != 1)
-                total += this.dealerHand.get(i).getValue();
-            else
-                numAces++;
+            total += this.dealerHand.get(i).getValue();
         
-        total += numAces; //every ace must add at least 1
         for(byte i=0; i<this.dealerHand.size(); i++)
             if(this.dealerHand.get(i).getValue() == 1)
-                if(total-11 <= 21) //there is space for the aces to have a higher value
+                if(total+10 <= 21) //there is space for the aces to have a higher value
                     total += 10;
         
         return total;
@@ -112,6 +113,11 @@ public class Game extends JFrame{
         System.out.println("You lost! You gain no money.");
     }
     
+    public void blackjack(){
+        System.out.println("Blackjack! You get 1.5× your betting money!");
+        thePlayer.gainMoney((long)(bettingMoney*1.5));
+    }
+    
     public void endGame(){
         //contains the check for ending the game, so this is called if the game might be lost
         
@@ -119,15 +125,6 @@ public class Game extends JFrame{
             System.out.println("\nYou're bankrupt. Play again soon!");
             System.exit(0);
         }
-    }
-    
-    public void blackjack(){
-        System.out.println("Blackjack! You get 1.5× your betting money!");
-        thePlayer.gainMoney((long)(bettingMoney*1.5));
-    }
-    
-    public Player getPlayer(){
-        return this.thePlayer;
     }
     
     public boolean cardsCanBeDealt(){
@@ -229,9 +226,9 @@ public class Game extends JFrame{
                 if(this.getDealerHandTotal() > 21){
                     this.win();
                 }else{
-                    if(this.getDealerHandTotal() > this.getPlayer().getHandTotal())
+                    if(this.getDealerHandTotal() > thePlayer.getHandTotal())
                         this.lose();
-                    else if(this.getDealerHandTotal() == this.getPlayer().getHandTotal())
+                    else if(this.getDealerHandTotal() == thePlayer.getHandTotal())
                         this.tie();
                     else
                         this.win();
